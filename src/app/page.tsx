@@ -14,7 +14,6 @@ export default function HomePage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
-        {/* Bảng Controller */}
         <Link
           href="/controller"
           className="p-6 bg-slate-900/80 hover:bg-slate-900 border border-amber-500/40 hover:border-amber-400 rounded-2xl transition group flex items-start gap-4 shadow-lg"
@@ -32,7 +31,6 @@ export default function HomePage() {
           </div>
         </Link>
 
-        {/* Màn hình MC */}
         <Link
           href="/mc?role=mc"
           className="p-6 bg-slate-900/80 hover:bg-slate-900 border border-slate-700 hover:border-cyan-500 rounded-2xl transition group flex items-start gap-4 shadow-lg"
@@ -50,7 +48,6 @@ export default function HomePage() {
           </div>
         </Link>
 
-        {/* Màn hình Khán giả */}
         <Link
           href="/viewer?role=viewer"
           className="p-6 bg-slate-900/80 hover:bg-slate-900 border border-slate-700 hover:border-purple-500 rounded-2xl transition group flex items-start gap-4 shadow-lg"
@@ -68,7 +65,6 @@ export default function HomePage() {
           </div>
         </Link>
 
-        {/* Màn hình 4 Thí sinh */}
         <div className="p-6 bg-slate-900/80 border border-slate-700 rounded-2xl flex flex-col justify-between shadow-lg">
           <div className="flex items-start gap-4 mb-4">
             <div className="p-3 bg-emerald-500/20 text-emerald-400 rounded-xl">
