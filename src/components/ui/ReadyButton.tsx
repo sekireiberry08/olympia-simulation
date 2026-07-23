@@ -15,8 +15,8 @@ export default function ReadyButton({ isReady, onToggle }: Props) {
           : "bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700"
       }`}
     >
-      <Play className={`w-4 h-4 ${isReady ? "fill-white" : ""}`} />
-      {isReady ? "ĐÃ SẴN SÀNG" : "SẮN SÀNG"}
+      <Play className={` ${isReady ? "fill-white" : ""}`} />
+      {isReady ? "ĐÃ SẴN SÀNG" : "SẴN SÀNG"}
     </button>
   );
 }

@@ -29,7 +29,7 @@ export default function ConnectionStatus({ role, isConnected }: Props) {
       <Icon className="w-5 h-5 shrink-0" />
       <div className="flex flex-col min-w-0">
         <span className="text-xs font-semibold truncate">{config.label}</span>
-        <span className="text-[10px] uppercase font-mono">
+        <span className="text-[10px] uppercase">
           {isConnected ? "Online" : "Offline"}
         </span>
       </div>

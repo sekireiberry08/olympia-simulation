@@ -18,7 +18,7 @@ export default function McPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-transparent text-white flex flex-col items-center justify-center font-mono">
+    <div className="min-h-screen bg-transparent text-white flex flex-col items-center justify-center ">
       <div className="text-center">
         <h1 className="text-5xl font-black text-amber-400 mb-4">
           🎙️ MÀN HÌNH MC / HOST

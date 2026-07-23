@@ -26,7 +26,7 @@ function ContestantContent() {
   }, [pos]);
 
   return (
-    <div className="min-h-screen bg-transparent text-white flex flex-col items-center justify-center font-mono">
+    <div className="min-h-screen bg-transparent text-white flex flex-col items-center justify-center">
       <div className="text-center">
         <h1 className="text-5xl font-black text-cyan-400 mb-4">
           THÍ SINH {pos}

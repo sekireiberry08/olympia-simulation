@@ -2,9 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { io, Socket } from "socket.io-client";
-import { Flame, ShieldAlert, Zap, Trophy } from "lucide-react";
 
-import ControllerTitle from "@/components/ui/ControllerTitle";
 import ReadyButton from "@/components/ui/ReadyButton";
 import ConnectionStatus from "@/components/ui/ConnectionStatus";
 import ContestantScore, { Contestant } from "@/components/ui/ContestantScore";
@@ -18,26 +16,18 @@ const STAGES = [
   {
     id: "KHỜI ĐỘNG",
     label: "Khởi Động",
-    icon: Flame,
-    color: "text-amber-400 border-amber-500 bg-amber-500/10",
   },
   {
     id: "VCNV",
     label: "VCNV",
-    icon: ShieldAlert,
-    color: "text-cyan-400 border-cyan-500 bg-cyan-500/10",
   },
   {
     id: "TĂNG TỐC",
     label: "Tăng Tốc",
-    icon: Zap,
-    color: "text-purple-400 border-purple-500 bg-purple-500/10",
   },
   {
     id: "VỀ ĐÍCH",
     label: "Về Đích",
-    icon: Trophy,
-    color: "text-emerald-400 border-emerald-500 bg-emerald-500/10",
   },
 ];
 
@@ -105,7 +95,6 @@ export default function ControllerPage() {
   return (
     <div className="min-h-screen max-w-7xl mx-auto p-6 flex flex-col gap-6 text-zinc-100">
       <header className="flex items-center justify-between">
-        <ControllerTitle />
         <ReadyButton
           isReady={isReady}
           onToggle={() => setIsReady((prev) => !prev)}

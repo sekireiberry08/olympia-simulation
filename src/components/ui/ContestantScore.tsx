@@ -20,7 +20,7 @@ export default function ContestantScore({
   return (
     <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 flex flex-col gap-3">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-zinc-800 text-amber-400">
+        <span className="text-xs font-bold px-2 py-0.5 rounded bg-zinc-800 text-amber-400">
           VỊ TRÍ {contestant.pos}
         </span>
         <input
@@ -38,7 +38,7 @@ export default function ContestantScore({
         >
           <Minus className="w-4 h-4" />
         </button>
-        <span className="text-3xl font-bold font-mono text-white tracking-wider">
+        <span className="text-3xl font-bold text-white tracking-wider">
           {contestant.score}
         </span>
         <button

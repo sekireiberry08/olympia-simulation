@@ -3,7 +3,7 @@ import { Gamepad2, UserCheck, Tv, Mic } from "lucide-react";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen text-white p-6 font-mono flex flex-col items-center justify-center">
+    <div className="min-h-screen text-white p-6 flex flex-col items-center justify-center">
       <div className="max-w-4xl w-full text-center mb-10 bg-black/50 p-6 rounded-2xl border border-slate-800/80 shadow-2xl">
         <h1 className="text-4xl md:text-6xl font-black text-amber-400 tracking-wider mb-3">
           OLYMPIA SIMULATION

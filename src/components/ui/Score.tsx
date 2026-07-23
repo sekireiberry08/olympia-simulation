@@ -26,8 +26,7 @@ export default function Score({ pos, name, score }: ScoreProps) {
 
       {/* Điểm số (Chữ màu trắng, cỡ lớn ở phía dưới) */}
       <div className="pb-3 md:pb-5">
-        <span className="text-4xl md:text-6xl font-black text-white tracking-wider drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] font-mono">
-          {score}
+        <span className="text-4xl md:text-6xl font-black text-white tracking-wider drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
         </span>
       </div>
     </div>
