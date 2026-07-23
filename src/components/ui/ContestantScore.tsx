@@ -18,35 +18,33 @@ export default function ContestantScore({
   onUpdateName,
 }: Props) {
   return (
-    <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 flex flex-col gap-3">
+    <div
+      style={{
+        backgroundImage: `url("/assets/image/image23.jpeg")`,
+      }}
+      className="w-full aspect-501/282 bg-cover bg-center border-zinc-800 p-1 flex flex-col justify-between shadow-lg overflow-hidden"
+    >
       <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-bold px-2 py-0.5 rounded bg-zinc-800 text-amber-400">
-          VỊ TRÍ {contestant.pos}
-        </span>
         <input
           type="text"
           value={contestant.name}
           onChange={(e) => onUpdateName(contestant.pos, e.target.value)}
-          className="bg-transparent text-sm font-semibold text-right text-zinc-200 focus:outline-none focus:border-b border-amber-500/50 w-full"
+          className="bg-transparent text-md font-semibold text-center text-blue-900 focus:outline-none focus:border-b border-amber-500/50 w-full"
         />
       </div>
 
-      <div className="flex items-center justify-between bg-black/40 p-3 rounded-lg border border-zinc-800/80">
+      <div className="flex items-center justify-between  p-3 border-zinc-800/80">
         <button
-          onClick={() => onUpdateScore(contestant.pos, -10)}
-          className="p-1.5 rounded-md hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
-        >
-          <Minus className="w-4 h-4" />
-        </button>
-        <span className="text-3xl font-bold text-white tracking-wider">
+          onClick={() => onUpdateScore(contestant.pos, -5)}
+          className="p-1.5 cursor-pointer text-zinc-400 hover:text-white transition-colors"
+        ></button>
+        <span className="text-[60px] font-bold text-white tracking-wider">
           {contestant.score}
         </span>
         <button
-          onClick={() => onUpdateScore(contestant.pos, 10)}
-          className="p-1.5 rounded-md hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
-        >
-          <Plus className="w-4 h-4" />
-        </button>
+          onClick={() => onUpdateScore(contestant.pos, 5)}
+          className="p-1.5 cursor-pointer text-zinc-400 hover:text-white transition-colors"
+        ></button>
       </div>
     </div>
   );

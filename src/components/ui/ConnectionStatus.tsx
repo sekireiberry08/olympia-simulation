@@ -29,7 +29,7 @@ export default function ConnectionStatus({ role, isConnected }: Props) {
       }`}
     >
       <div className="flex flex-col min-w-0">
-        <span className="text-s font-semibold truncate">{config.label}</span>
+        <span className="text-sm font-semibold truncate">{config.label}</span>
       </div>
     </div>
   );

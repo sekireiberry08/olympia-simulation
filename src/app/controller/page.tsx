@@ -93,15 +93,13 @@ export default function ControllerPage() {
   };
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto p-6 flex flex-col gap-6 text-zinc-100">
-      <header className="flex items-center justify-between">
-        <ReadyButton
-          isReady={isReady}
-          onToggle={() => setIsReady((prev) => !prev)}
-        />
-      </header>
+    <div className="min-h-screen max-w-7xl mx-auto p-1 flex flex-col gap-1 text-zinc-100">
+      {/* <ReadyButton
+        isReady={isReady}
+        onToggle={() => setIsReady((prev) => !prev)}
+      /> */}
 
-      <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1">
         {Object.keys(connections).map((role) => (
           <ConnectionStatus
             key={role}
@@ -111,7 +109,7 @@ export default function ControllerPage() {
         ))}
       </section>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 p-5">
         {contestants.map((c) => (
           <ContestantScore
             key={c.pos}
