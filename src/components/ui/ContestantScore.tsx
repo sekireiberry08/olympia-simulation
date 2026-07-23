@@ -1,5 +1,3 @@
-import { Plus, Minus } from "lucide-react";
-
 export interface Contestant {
   pos: string;
   name: string;

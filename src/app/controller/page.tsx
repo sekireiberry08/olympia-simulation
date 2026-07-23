@@ -37,19 +37,19 @@ export default function ControllerPage() {
   const [activeStage, setActiveStage] = useState("KHỜI ĐỘNG");
 
   const [connections, setConnections] = useState<Record<string, boolean>>({
-    "contestant-A": false,
-    "contestant-B": false,
-    "contestant-C": false,
-    "contestant-D": false,
+    "contestant-1": false,
+    "contestant-2": false,
+    "contestant-3": false,
+    "contestant-4": false,
     mc: false,
     viewer: false,
   });
 
   const [contestants, setContestants] = useState<Contestant[]>([
-    { pos: "A", name: "Thí Sinh A", score: 0 },
-    { pos: "B", name: "Thí Sinh B", score: 0 },
-    { pos: "C", name: "Thí Sinh C", score: 0 },
-    { pos: "D", name: "Thí Sinh D", score: 0 },
+    { pos: "1", name: "Thí Sinh A", score: 0 },
+    { pos: "2", name: "Thí Sinh B", score: 0 },
+    { pos: "3", name: "Thí Sinh C", score: 0 },
+    { pos: "4", name: "Thí Sinh D", score: 0 },
   ]);
 
   useEffect(() => {
@@ -58,10 +58,10 @@ export default function ControllerPage() {
 
     socketClient.on("clients-update", (activeRoles: string[]) => {
       setConnections({
-        "contestant-A": activeRoles.includes("contestant-A"),
-        "contestant-B": activeRoles.includes("contestant-B"),
-        "contestant-C": activeRoles.includes("contestant-C"),
-        "contestant-D": activeRoles.includes("contestant-D"),
+        "contestant-1": activeRoles.includes("contestant-1"),
+        "contestant-2": activeRoles.includes("contestant-2"),
+        "contestant-3": activeRoles.includes("contestant-3"),
+        "contestant-4": activeRoles.includes("contestant-4"),
         mc: activeRoles.includes("mc"),
         viewer: activeRoles.includes("viewer"),
       });

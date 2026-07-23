@@ -14,38 +14,45 @@ app.prepare().then(() => {
   const server = http.createServer(expressApp);
   const io = new Server(server);
 
-  const onlineDevices = {
-    controller: false,
-    mc: false,
-    viewer: false,
-    A: false,
-    B: false,
-    C: false,
-    D: false,
+  const activeClients = new Map();
+
+  const broadcastActiveRoles = () => {
+    const activeRoles = Array.from(activeClients.values());
+    io.emit("clients-update", activeRoles);
   };
 
   io.on("connection", (socket) => {
     const { role, pos } = socket.handshake.query;
-    const deviceKey = role === "contestant" ? pos : role;
 
-    if (deviceKey && onlineDevices.hasOwnProperty(deviceKey)) {
-      onlineDevices[deviceKey] = true;
-      socket.deviceKey = deviceKey;
+    let roleKey = role;
+    if (role === "contestant" && pos) {
+      roleKey = `contestant-${pos}`;
     }
 
-    io.emit("connection:status", onlineDevices);
+    if (roleKey) {
+      socket.role = roleKey;
+      activeClients.set(socket.id, roleKey);
+      console.log(`🟢 [ONLINE] ${roleKey} (ID: ${socket.id})`);
+    }
+
+    broadcastActiveRoles();
+
+    socket.on("update-scores", (data) => {
+      socket.broadcast.emit("scores-updated", data);
+    });
 
     socket.on("disconnect", () => {
-      if (socket.deviceKey) {
-        onlineDevices[socket.deviceKey] = false;
-
-        io.emit("connection:status", onlineDevices);
+      if (socket.role) {
+        console.log(`🔴 [OFFLINE] ${socket.role}`);
       }
+      activeClients.delete(socket.id);
+      broadcastActiveRoles();
     });
   });
 
   expressApp.use((req, res) => handle(req, res));
+
   server.listen(port, () => {
-    console.log(`> Server sẵn sàng tại: http://localhost:${port}`);
+    console.log(`> Server Olympia sẵn sàng tại: http://localhost:${port}`);
   });
 });

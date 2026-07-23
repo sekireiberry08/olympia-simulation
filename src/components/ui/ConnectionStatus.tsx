@@ -1,21 +1,19 @@
-import { UserCheck, Mic, Tv } from "lucide-react";
-
 interface Props {
   role: string;
   isConnected: boolean;
 }
 
-const ROLE_MAP: Record<string, { label: string; icon: any }> = {
-  "contestant-A": { label: "Thí Sinh A", icon: UserCheck },
-  "contestant-B": { label: "Thí Sinh B", icon: UserCheck },
-  "contestant-C": { label: "Thí Sinh C", icon: UserCheck },
-  "contestant-D": { label: "Thí Sinh D", icon: UserCheck },
-  mc: { label: "MC", icon: Mic },
-  viewer: { label: "Viewer", icon: Tv },
+const ROLE_MAP: Record<string, { label: string }> = {
+  "contestant-1": { label: "Thí Sinh A" },
+  "contestant-2": { label: "Thí Sinh B" },
+  "contestant-3": { label: "Thí Sinh C" },
+  "contestant-4": { label: "Thí Sinh D" },
+  mc: { label: "MC" },
+  viewer: { label: "Màn hình" },
 };
 
 export default function ConnectionStatus({ role, isConnected }: Props) {
-  const config = ROLE_MAP[role] || { label: role, icon: UserCheck };
+  const config = ROLE_MAP[role] || { label: role };
 
   return (
     <div

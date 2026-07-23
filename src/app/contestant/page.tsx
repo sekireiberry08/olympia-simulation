@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 
 function ContestantContent() {
   const searchParams = useSearchParams();
-  const pos = searchParams.get("pos") || "A";
+  const pos = searchParams.get("pos") || "1";
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {

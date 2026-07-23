@@ -1,6 +1,6 @@
 export type Role = "mc" | "contestant" | "viewer" | "controller";
 
-export type ContestantPosition = "A" | "B" | "C" | "D";
+export type ContestantPosition = "1" | "2" | "3" | "4";
 
 export interface Contestant {
   id: string; 

@@ -1,9 +1,9 @@
 "use client";
 
 interface ScoreProps {
-  pos: string; // "A" | "B" | "C" | "D"
-  name: string; // Tên thí sinh
-  score: number; // Điểm số
+  pos: string; 
+  name: string; 
+  score: number; 
 }
 
 export default function Score({ pos, name, score }: ScoreProps) {
@@ -14,7 +14,6 @@ export default function Score({ pos, name, score }: ScoreProps) {
         backgroundImage: "url('/assets/image/image23.jpeg')",
       }}
     >
-      {/* Tên thí sinh (Phía trên) */}
       <div className="pt-2">
         <span className="text-xs font-semibold text-amber-300 uppercase tracking-widest block mb-0.5">
           THÍ SINH {pos}
@@ -24,7 +23,6 @@ export default function Score({ pos, name, score }: ScoreProps) {
         </h3>
       </div>
 
-      {/* Điểm số (Chữ màu trắng, cỡ lớn ở phía dưới) */}
       <div className="pb-3 md:pb-5">
         <span className="text-4xl md:text-6xl font-black text-white tracking-wider drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
         </span>
