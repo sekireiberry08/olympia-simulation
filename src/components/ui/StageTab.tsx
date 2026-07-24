@@ -14,10 +14,10 @@ export default function StageTab({ stage, isActive, onClick }: Props) {
   return (
     <button
       onClick={onClick}
-      className={`p-4 border-b-2 flex items-center justify-center gap-2 font-semibold text-sm transition-all ${
+      className={`p-4 flex items-center justify-center gap-2 font-semibold text-xl bg-no-repeat bg-center bg-contain ${
         isActive
-          ? "text-white border-current"
-          : "border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/30"
+          ? "bg-[url('/assets/image/image82.png')] text-white"
+          : "bg-[url('/assets/image/image75.png')] text-zinc-500 hover:bg-[url('/assets/image/image74.png')] hover:text-zinc-300"
       }`}
     >
       {stage.label}

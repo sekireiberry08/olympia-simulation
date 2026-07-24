@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 
-import ReadyButton from "@/components/ui/ReadyButton";
 import ConnectionStatus from "@/components/ui/ConnectionStatus";
 import ContestantScore, { Contestant } from "@/components/ui/ContestantScore";
 import StageTab from "@/components/ui/StageTab";
@@ -13,27 +12,14 @@ import TangTocController from "@/components/ui/TangTocController";
 import VeDichController from "@/components/ui/VeDichController";
 
 const STAGES = [
-  {
-    id: "KHỜI ĐỘNG",
-    label: "Khởi Động",
-  },
-  {
-    id: "VCNV",
-    label: "VCNV",
-  },
-  {
-    id: "TĂNG TỐC",
-    label: "Tăng Tốc",
-  },
-  {
-    id: "VỀ ĐÍCH",
-    label: "Về Đích",
-  },
+  { id: "KHỜI ĐỘNG", label: "Khởi Động" },
+  { id: "VCNV", label: "VCNV" },
+  { id: "TĂNG TỐC", label: "Tăng Tốc" },
+  { id: "VỀ ĐÍCH", label: "Về Đích" },
 ];
 
 export default function ControllerPage() {
   const socketRef = useRef<Socket | null>(null);
-  const [isReady, setIsReady] = useState(false);
   const [activeStage, setActiveStage] = useState("KHỜI ĐỘNG");
 
   const [connections, setConnections] = useState<Record<string, boolean>>({
@@ -92,14 +78,21 @@ export default function ControllerPage() {
     });
   };
 
-  return (
-    <div className="min-h-screen max-w-7xl mx-auto p-1 flex flex-col gap-1 text-zinc-100">
-      {/* <ReadyButton
-        isReady={isReady}
-        onToggle={() => setIsReady((prev) => !prev)}
-      /> */}
+  const handleFinishRound = (roundScores: { [key: string]: number }) => {
+    setContestants((prev) => {
+      const next = prev.map((c) => ({
+        ...c,
+        score: c.score + (roundScores[c.pos] || 0),
+      }));
+      socketRef.current?.emit("update-scores", next);
+      return next;
+    });
+  };
 
-      <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1">
+  return (
+    <div className="h-screen w-full p-2 flex flex-col gap-2 text-zinc-100 overflow-hidden bg-slate-950 font-mono">
+      {/* 1. Trạng thái kết nối (Dàn hàng ngang nhỏ gọn) */}
+      <section className="grid grid-cols-6 gap-1 shrink-0">
         {Object.keys(connections).map((role) => (
           <ConnectionStatus
             key={role}
@@ -109,7 +102,8 @@ export default function ControllerPage() {
         ))}
       </section>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 p-5">
+      {/* 2. Bảng điểm 4 Thí Sinh */}
+      <section className="grid grid-cols-4 gap-2 shrink-0">
         {contestants.map((c) => (
           <ContestantScore
             key={c.pos}
@@ -120,8 +114,10 @@ export default function ControllerPage() {
         ))}
       </section>
 
-      <section className="flex-1 flex flex-col bg-zinc-900/40 border border-zinc-800 rounded-xl overflow-hidden">
-        <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-zinc-800">
+      {/* 3. Khu vực Tab Vòng chơi (Trái) & Controller (Phải) */}
+      <section className="flex-1 flex flex-row border border-slate-800 rounded-lg overflow-hidden min-h-0">
+        {/* Sidebar Tabs */}
+        <div className="w-40 sm:w-48 bg-slate-900/80 border-r border-slate-800 flex flex-col shrink-0 p-1.5 gap-1">
           {STAGES.map((stage) => (
             <StageTab
               key={stage.id}
@@ -132,8 +128,11 @@ export default function ControllerPage() {
           ))}
         </div>
 
-        <div className="flex-1 p-6 overflow-auto">
-          {activeStage === "KHỜI ĐỘNG" && <KhoiDongController />}
+        {/* Nội dung Controller tương ứng */}
+        <div className="flex-1 p-3 bg-slate-950 overflow-hidden h-full">
+          {activeStage === "KHỜI ĐỘNG" && (
+            <KhoiDongController onFinishRound={handleFinishRound} />
+          )}
           {activeStage === "VCNV" && <VCNVController />}
           {activeStage === "TĂNG TỐC" && <TangTocController />}
           {activeStage === "VỀ ĐÍCH" && <VeDichController />}

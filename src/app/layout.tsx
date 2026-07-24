@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Olympia Simulation",
+  title: "Olympia",
   description: "Hệ thống mô phỏng Đường lên đỉnh Olympia",
 };
 
@@ -22,12 +22,12 @@ export default function RootLayout({
   return (
     <html lang="vi" className={myriadPro.variable}>
       <body
-        className={`min-h-screen bg-cover bg-center bg-no-repeat bg-fixed relative`}
+        className={`min-h-screen w-full h-full bg-cover bg-center bg-no-repeat relative`}
         style={{
           backgroundImage: "url('/assets/image/image1.png')",
         }}
       >
-        <div className="min-h-screen bg-black/20">{children}</div>
+        <div className="min-h-screen">{children}</div>
       </body>
     </html>
   );
