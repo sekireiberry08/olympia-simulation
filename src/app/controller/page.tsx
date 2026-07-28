@@ -77,16 +77,8 @@ export default function ControllerPage() {
       return next;
     });
   };
-
-  const handleFinishRound = (roundScores: { [key: string]: number }) => {
-    setContestants((prev) => {
-      const next = prev.map((c) => ({
-        ...c,
-        score: c.score + (roundScores[c.pos] || 0),
-      }));
-      socketRef.current?.emit("update-scores", next);
-      return next;
-    });
+  const handleUpdateScore = (pos: string, delta: number) => {
+    updateScore(pos, delta);
   };
 
   return (
@@ -135,7 +127,7 @@ export default function ControllerPage() {
 
         <div className="flex-1 p-3 overflow-hidden h-full">
           {activeStage === "KHỜI ĐỘNG" && (
-            <KhoiDongController onFinishRound={handleFinishRound} />
+            <KhoiDongController onUpdateScore={handleUpdateScore} />
           )}
           {activeStage === "VCNV" && <VCNVController />}
           {activeStage === "TĂNG TỐC" && <TangTocController />}
