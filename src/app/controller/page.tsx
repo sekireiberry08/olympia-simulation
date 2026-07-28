@@ -20,7 +20,7 @@ const STAGES = [
 
 export default function ControllerPage() {
   const socketRef = useRef<Socket | null>(null);
-  const [activeStage, setActiveStage] = useState("KHỜI ĐỘNG");
+  const [activeStage, setActiveStage] = useState<string | null>(null);
 
   const [connections, setConnections] = useState<Record<string, boolean>>({
     "contestant-1": false,
@@ -122,7 +122,13 @@ export default function ControllerPage() {
               key={stage.id}
               stage={stage}
               isActive={activeStage === stage.id}
-              onClick={() => setActiveStage(stage.id)}
+              onClick={() => {
+                if (stage.id === "KHỜI ĐỘNG") {
+                  new Audio("/assets/audio/KĐ_bắt_đầu_left_O9.mp3.mpeg").play();
+                }
+
+                setActiveStage(stage.id);
+              }}
             />
           ))}
         </div>
