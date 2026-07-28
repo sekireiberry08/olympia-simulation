@@ -6,10 +6,10 @@ import { io, Socket } from "socket.io-client";
 import ConnectionStatus from "@/components/ui/ConnectionStatus";
 import ContestantScore, { Contestant } from "@/components/ui/ContestantScore";
 import StageTab from "@/components/ui/StageTab";
-import KhoiDongController from "@/components/ui/KhoiDongController";
-import VCNVController from "@/components/ui/VCNVController";
-import TangTocController from "@/components/ui/TangTocController";
-import VeDichController from "@/components/ui/VeDichController";
+import KhoiDongController from "@/components/rounds/khoi-dong/KhoiDongController";
+import VCNVController from "@/components/rounds/vcnv/VCNVController";
+import TangTocController from "@/components/rounds/tang-toc/TangTocController";
+import VeDichController from "@/components/rounds/ve-dich/VeDichController";
 
 const STAGES = [
   { id: "KHỜI ĐỘNG", label: "Khởi Động" },
@@ -90,8 +90,10 @@ export default function ControllerPage() {
   };
 
   return (
-    <div className="h-screen w-full p-2 flex flex-col gap-2 text-zinc-100 overflow-hidden bg-slate-950 font-mono">
-      {/* 1. Trạng thái kết nối (Dàn hàng ngang nhỏ gọn) */}
+    <div
+      style={{ backgroundImage: `url("/assets/image/image88.png")` }}
+      className="h-screen w-full p-2 flex flex-col gap-2 text-zinc-100 overflow-hidden bg-slate-950 font-mono"
+    >
       <section className="grid grid-cols-6 gap-1 shrink-0">
         {Object.keys(connections).map((role) => (
           <ConnectionStatus
@@ -102,7 +104,6 @@ export default function ControllerPage() {
         ))}
       </section>
 
-      {/* 2. Bảng điểm 4 Thí Sinh */}
       <section className="grid grid-cols-4 gap-2 shrink-0">
         {contestants.map((c) => (
           <ContestantScore
@@ -114,10 +115,8 @@ export default function ControllerPage() {
         ))}
       </section>
 
-      {/* 3. Khu vực Tab Vòng chơi (Trái) & Controller (Phải) */}
-      <section className="flex-1 flex flex-row border border-slate-800 rounded-lg overflow-hidden min-h-0">
-        {/* Sidebar Tabs */}
-        <div className="w-40 sm:w-48 bg-slate-900/80 border-r border-slate-800 flex flex-col shrink-0 p-1.5 gap-1">
+      <section className="flex-1 flex flex-row border-slate-800 rounded-lg overflow-hidden min-h-0">
+        <div className="w-40 sm:w-48 flex flex-col shrink-0 p-1.5 gap-1">
           {STAGES.map((stage) => (
             <StageTab
               key={stage.id}
@@ -128,8 +127,7 @@ export default function ControllerPage() {
           ))}
         </div>
 
-        {/* Nội dung Controller tương ứng */}
-        <div className="flex-1 p-3 bg-slate-950 overflow-hidden h-full">
+        <div className="flex-1 p-3 overflow-hidden h-full">
           {activeStage === "KHỜI ĐỘNG" && (
             <KhoiDongController onFinishRound={handleFinishRound} />
           )}
