@@ -20,7 +20,7 @@ export default function ContestantScore({
       style={{
         backgroundImage: `url("/assets/image/image23.jpeg")`,
       }}
-      className="w-full aspect-501/282 bg-cover bg-center border-zinc-800 p-1 flex flex-col justify-between shadow-lg overflow-hidden"
+      className="w-full aspect-501/282 bg-cover bg-center border-zinc-800 p-2 flex flex-col justify-between shadow-lg overflow-hidden"
     >
       <div className="flex items-center justify-between gap-2">
         <input
@@ -31,7 +31,7 @@ export default function ContestantScore({
         />
       </div>
 
-      <div className="flex items-center justify-between  p-3 border-zinc-800/80">
+      <div className="flex items-center justify-between  p-5 border-zinc-800/80">
         <button
           onClick={() => onUpdateScore(contestant.pos, -5)}
           className="p-1.5 cursor-pointer text-zinc-400 hover:text-white transition-colors"
