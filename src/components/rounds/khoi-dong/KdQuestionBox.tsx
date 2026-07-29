@@ -15,64 +15,53 @@ interface KdQuestionBoxProps {
 export default function KdQuestionBox({
   currentQIndex,
   totalQuestions,
-  selectedContestant,
   gameState,
   introTimer,
   gameTimer,
   currentQ,
 }: KdQuestionBoxProps) {
   return (
-    <div
-      className="flex-1 bg-cover bg-no-repeat bg-center p-4 flex flex-col gap-3 overflow-hidden"
-      style={{
-        backgroundImage: `url("/assets/image/image281.gif")`,
-      }}
-    >
-      <div className="flex items-center justify-between border-b border-slate-700 pb-2">
-        <div>
-          <p className="text-xs font-bold text-slate-400">
-            CÂU {currentQIndex + 1} / {totalQuestions}
+    <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col gap-0">
+        <div
+          className="relative w-full h-67 bg-contain bg-top bg-no-repeat px-6 pt-3"
+          style={{
+            backgroundImage: 'url("/assets/image/image281.gif")',
+          }}
+        >
+          <p className="text-sm font-bold text-white">
+            {currentQIndex + 1} / {totalQuestions}
           </p>
-          <p className="text-xs font-bold text-amber-400">
-            THÍ SINH {selectedContestant ?? "--"}
-          </p>
-        </div>
 
-        <div className="w-20 h-12 flex items-center justify-center">
+          <p className="mt-3 text-2xl font-bold text-white leading-relaxed text-left">
+            {gameState === "PLAYING" || gameState === "ENDED"
+              ? currentQ.question
+              : ""}
+          </p>
+
           <span
-            className={`text-2xl font-black ${
+            className={`absolute right-10 bottom-10 text-4xl pb-15 font-black ${
               gameState === "INTRO"
                 ? "text-amber-300"
                 : gameTimer <= 10
-                  ? "text-red-400 animate-pulse"
+                  ? "text-red-500"
                   : "text-white"
             }`}
           >
             {gameState === "INTRO" ? introTimer : gameTimer}
           </span>
         </div>
-      </div>
 
-      <div className="flex-1 flex flex-col justify-center gap-5 overflow-hidden">
-        <div>
-          <p className="text-xs font-bold text-slate-400 mb-2">CÂU HỎI</p>
-
-          <div className="min-h-28 rounded-lg bg-slate-900/60 p-4 flex items-center text-lg font-bold text-white leading-relaxed">
-            {gameState === "IDLE" &&
-              "Chọn thí sinh và nhấn BẮT ĐẦU để bắt đầu phần thi."}
-
-            {gameState === "INTRO" && `Chuẩn bị... ${introTimer}`}
-
-            {(gameState === "PLAYING" || gameState === "ENDED") &&
-              currentQ.question}
-          </div>
-        </div>
-
-        <div>
-          <p className="text-xs font-bold text-slate-400 mb-2">ĐÁP ÁN</p>
-
-          <div className="rounded-lg bg-slate-900/60 px-4 py-3 text-lg font-bold text-emerald-400">
-            {gameState === "PLAYING" ? currentQ.answer : ""}
+        <div
+          className="-mt-3 w-full h-30 bg-contain bg-center bg-no-repeat mx-auto"
+          style={{
+            backgroundImage: 'url("/assets/image/image81.png")',
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <p className="text-3xl font-bold text-white uppercase text-center">
+              {gameState === "PLAYING" ? currentQ.answer : ""}
+            </p>
           </div>
         </div>
       </div>

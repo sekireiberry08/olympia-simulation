@@ -7,10 +7,11 @@ interface KdActionControlsProps {
   onWrong: () => void;
   onFinish: () => void;
   selectedContestant: string | null;
-  isScoreCalculated: boolean;
   isRoundSaved: boolean;
+  countdown: number;
+  isWaitingAnswer: boolean;
+  onStartAnswerTimer: () => void;
 }
-
 export default function KdActionControls({
   gameState,
   onStart,
@@ -18,42 +19,108 @@ export default function KdActionControls({
   onWrong,
   onFinish,
   selectedContestant,
-  isRoundSaved
+  isRoundSaved,
+  countdown,
+  isWaitingAnswer,
+  onStartAnswerTimer,
 }: KdActionControlsProps) {
   return (
-    <div className="flex items-center justify-between gap-2 shrink-0">
+    <div className="h-full flex flex-col justify-center gap-2">
       <button
         onClick={onStart}
         disabled={gameState !== "IDLE" || selectedContestant === null}
-        className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-600 text-xs font-black rounded-lg transition cursor-pointer text-white"
+        className="
+w-full
+aspect-[2048/1879]
+bg-contain
+bg-center
+bg-no-repeat
+cursor-pointer
+disabled:opacity-40
+transition
+"
+        style={{
+          backgroundImage: 'url("/assets/image/image87.png")',
+        }}
       >
         BẮT ĐẦU
       </button>
+      <button
+        onClick={onCorrect}
+        disabled={gameState !== "PLAYING"}
+        className="
+w-full
+aspect-[2048/1879]
+bg-contain
+bg-center
+bg-no-repeat
+cursor-pointer
+disabled:opacity-40
+transition
+"
+        style={{
+          backgroundImage: 'url("/assets/image/image87.png")',
+        }}
+      >
+        ĐÚNG
+      </button>
 
-      <div className="flex items-center gap-2">
-        <button
-          onClick={onCorrect}
-          disabled={gameState !== "PLAYING"}
-          className="flex items-center gap-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-600 text-xs font-bold rounded-lg transition cursor-pointer text-white"
-        >
-          ĐÚNG
-        </button>
-
-        <button
-          onClick={onWrong}
-          disabled={gameState !== "PLAYING"}
-          className="flex items-center gap-1 px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-slate-800 disabled:text-slate-600 text-xs font-bold rounded-lg transition cursor-pointer text-white"
-        >
-          SAI / BỎ QUA
-        </button>
-      </div>
-
+      <button
+        onClick={onWrong}
+        disabled={gameState !== "PLAYING"}
+        className="
+w-full
+aspect-[2048/1879]
+bg-contain
+bg-center
+bg-no-repeat
+cursor-pointer
+disabled:opacity-40
+transition
+"
+        style={{
+          backgroundImage: 'url("/assets/image/image87.png")',
+        }}
+      >
+        SAI / BỎ QUA
+      </button>
       <button
         onClick={onFinish}
         disabled={gameState !== "ENDED" || isRoundSaved}
-        className="..."
+        className="
+w-full
+aspect-[2048/1879]
+bg-contain
+bg-center
+bg-no-repeat
+disabled:opacity-40
+transition cursor-pointer 
+"
+        style={{
+          backgroundImage: 'url("/assets/image/image87.png")',
+        }}
       >
         {isRoundSaved ? "ĐÃ TỔNG KẾT" : "TỔNG KẾT"}
+      </button>
+      <button
+        onClick={() => new Audio("/assets/audio/Ô_trống_O9.ogg").play()}
+        className="w-full h-14 bg-contain bg-center cursor-pointer bg-no-repeat"
+        style={{
+          backgroundImage: 'url("/assets/image/image87.png")',
+        }}
+      >
+        ...
+      </button>
+
+      <button
+        onClick={onStartAnswerTimer}
+        disabled={gameState !== "PLAYING" || isWaitingAnswer}
+        className="w-full h-14  cursor-pointer bg-contain bg-center bg-no-repeat disabled:opacity-40"
+        style={{
+          backgroundImage: 'url("/assets/image/image87.png")',
+        }}
+      >
+        {isWaitingAnswer ? countdown : "3"}
       </button>
     </div>
   );

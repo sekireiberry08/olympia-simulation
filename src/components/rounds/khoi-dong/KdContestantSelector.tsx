@@ -19,7 +19,7 @@ export default function KdContestantSelector({
             <button
               key={pos}
               onClick={() => onSelectContestant(pos)}
-              className={`px-15 py-1 bg-cover bg-no-repeat bg-center text-xs   cursor-pointer ${
+              className={`px-20 py-1 bg-cover bg-no-repeat bg-center text-2xl cursor-pointer ${
                 selectedContestant === pos ? " text-white " : " text-blue-300"
               }`}
               style={{

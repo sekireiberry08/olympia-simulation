@@ -3,7 +3,6 @@ export interface Question {
   question: string;
   answer: string;
 }
-
 export const KD_QUESTIONS: Question[] = [
   { id: 1, question: "Thủ đô của Việt Nam là gì?", answer: "Hà Nội" },
   { id: 2, question: "Số nguyên tố nhỏ nhất là số nào?", answer: "2" },
@@ -13,7 +12,7 @@ export const KD_QUESTIONS: Question[] = [
   { id: 6, question: "Tác phẩm 'Tắt đèn' là của ai?", answer: "Ngô Tất Tố" },
   { id: 7, question: "Số Pi xấp xỉ bằng bao nhiêu?", answer: "3.14" },
   { id: 8, question: "Kim loại nào dẫn điện tốt nhất?", answer: "Bạc" },
-  { id: 9, question: "Ngôn ngữ chính thức của Brazil là gì?", answer: "Tiếng Bồ Đào Nha" },
+  { id: 9, question: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Delectus quae iste illo ipsa odit pariatur odio excepturi, vel in recusandae itaque culpa, doloremque autem atque libero. Aliquid aliquam fugiat molestias, nihil nobis voluptatibus tempore quas natus sunt cupiditate quis veritatis illo necessitatibus quibusdam quos consequatur hic cum, consequuntur quo doloremque?", answer: "Tiếng Bồ Đào Nha" },
   { id: 10, question: "Lực hấp dẫn được phát hiện bởi ai?", answer: "Isaac Newton" },
   { id: 11, question: "Đỉnh núi cao nhất thế giới là gì?", answer: "Everest" },
   { id: 12, question: "Đoạn văn tự do ngắn nhất trong DNA gọi là gì?", answer: "Gen" },

@@ -28,6 +28,8 @@ export default function KhoiDongController({
   const [gameTimer, setGameTimer] = useState(60);
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [isRoundSaved, setIsRoundSaved] = useState(false);
+  const [countdown, setCountdown] = useState(3);
+  const [isWaitingAnswer, setIsWaitingAnswer] = useState(false);
   const currentQ = questions[currentQIndex] || {
     question: "Đã hết câu hỏi!",
     answer: "",
@@ -43,7 +45,7 @@ export default function KhoiDongController({
           setIntroTimer((prev) => prev - 1);
         }, 1000);
       } else {
-        new Audio("/assets/audio/KĐ_60s_O10.mp3.mpeg").play();
+        new Audio("/assets/audio/KĐ_60s_left_O11.mp3.mpeg").play();
         setGameState("PLAYING");
       }
     }
@@ -66,7 +68,21 @@ export default function KhoiDongController({
 
     return () => clearInterval(timer);
   }, [gameState, gameTimer]);
+  useEffect(() => {
+    if (!isWaitingAnswer) return;
 
+    if (countdown === 0) {
+      setIsWaitingAnswer(false);
+      handleWrong();
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setCountdown((p) => p - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [countdown, isWaitingAnswer]);
   const handleStart = () => {
     if (!selectedContestant) return;
     setGameState("INTRO");
@@ -97,6 +113,8 @@ export default function KhoiDongController({
 
   const handleCorrect = () => {
     if (gameState !== "PLAYING" || !selectedContestant) return;
+    setIsWaitingAnswer(false);
+    setCountdown(3);
 
     new Audio("/assets/audio/KĐ_đúng_O10.mp3.mpeg").play();
 
@@ -107,6 +125,8 @@ export default function KhoiDongController({
 
   const handleWrong = () => {
     new Audio("/assets/audio/KĐ_sai_O7.mp3.mpeg").play();
+    setIsWaitingAnswer(false);
+    setCountdown(3);
     if (gameState !== "PLAYING") return;
     nextQuestion();
   };
@@ -124,7 +144,10 @@ export default function KhoiDongController({
     setIntroTimer(3);
     setGameTimer(60);
   };
-
+const handleStartAnswerTimer = () => {
+  setCountdown(3);
+  setIsWaitingAnswer(true);
+};
   return (
     <div className="h-full flex flex-col justify-between gap-2 overflow-hidden text-white font-mono">
       <KdContestantSelector
@@ -132,26 +155,34 @@ export default function KhoiDongController({
         selectedContestant={selectedContestant}
         onSelectContestant={resetStateForContestant}
       />
+      <div className="flex-1 flex gap-2 min-h-0">
+        <div className="flex-1 min-w-0">
+          <KdQuestionBox
+            currentQIndex={currentQIndex}
+            totalQuestions={questions.length}
+            selectedContestant={selectedContestant}
+            gameState={gameState}
+            introTimer={introTimer}
+            gameTimer={gameTimer}
+            currentQ={currentQ}
+          />
+        </div>
 
-      <KdQuestionBox
-        currentQIndex={currentQIndex}
-        totalQuestions={questions.length}
-        selectedContestant={selectedContestant}
-        gameState={gameState}
-        introTimer={introTimer}
-        gameTimer={gameTimer}
-        currentQ={currentQ}
-      />
-
-      <KdActionControls
-        gameState={gameState}
-        selectedContestant={selectedContestant}
-        isRoundSaved={isRoundSaved}
-        onStart={handleStart}
-        onCorrect={handleCorrect}
-        onWrong={handleWrong}
-        onFinish={handleFinish}
-      />
+        <div className="w-20 shrink-0">
+          <KdActionControls
+            gameState={gameState}
+            selectedContestant={selectedContestant}
+            isRoundSaved={isRoundSaved}
+            onStart={handleStart}
+            onCorrect={handleCorrect}
+            onWrong={handleWrong}
+            onFinish={handleFinish}
+            countdown={countdown}
+            isWaitingAnswer={isWaitingAnswer}
+            onStartAnswerTimer={handleStartAnswerTimer}
+          />
+        </div>
+      </div>
     </div>
   );
 }
