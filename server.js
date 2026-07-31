@@ -36,7 +36,9 @@ app.prepare().then(() => {
     }
 
     broadcastActiveRoles();
-
+    socket.on("stage-change", (stage) => {
+      io.emit("stage-change", stage);
+    });
     socket.on("update-scores", (data) => {
       socket.broadcast.emit("scores-updated", data);
     });

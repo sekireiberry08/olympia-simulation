@@ -10,7 +10,13 @@ export const metadata: Metadata = {
 const myriadPro = localFont({
   src: "../../public/fonts/MYRIADPRO-BOLD1.otf",
   variable: "--font-myriad",
-  weight: "700", 
+  weight: "700",
+  display: "swap",
+});
+
+const neutra = localFont({
+  src: "../../public/fonts/UTM-Neutra.ttf",
+  variable: "--font-neutra",
   display: "swap",
 });
 
@@ -20,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={myriadPro.variable}>
+    <html lang="vi" className={`${myriadPro.variable} ${neutra.variable}`}>
       <body
         className={`min-h-screen w-full h-full bg-cover bg-center bg-no-repeat relative`}
         style={{

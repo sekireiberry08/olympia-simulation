@@ -117,6 +117,7 @@ export default function ControllerPage() {
               onClick={() => {
                 if (stage.id === "KHỜI ĐỘNG") {
                   new Audio("/assets/audio/KĐ_bắt_đầu_left_O9.mp3.mpeg").play();
+                  socketRef.current?.emit("stage-change", "KHỞI ĐỘNG");
                 }
 
                 setActiveStage(stage.id);

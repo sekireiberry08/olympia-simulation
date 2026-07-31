@@ -8,7 +8,7 @@ function ContestantContent() {
   const searchParams = useSearchParams();
   const pos = searchParams.get("pos") || "1";
   const [isConnected, setIsConnected] = useState(false);
-
+  const [stage, setStage] = useState("");
   useEffect(() => {
     const socket = io({ query: { role: "contestant", pos } });
 
@@ -20,6 +20,10 @@ function ContestantContent() {
       setIsConnected(false);
     });
 
+    socket.on("stage-change", (value: string) => {
+      setStage(value);
+    });
+
     return () => {
       socket.disconnect();
     };
@@ -28,9 +32,15 @@ function ContestantContent() {
   return (
     <div className="min-h-screen bg-transparent text-white flex flex-col items-center justify-center">
       <div className="text-center">
-        <h1 className="text-5xl font-black text-cyan-400 mb-4">
-          THÍ SINH {pos}
-        </h1>
+        {stage === "KHỞI ĐỘNG" ? (
+          <h1 className="font-neutra text-[180px] leading-none text-white uppercase">
+            KHỞI ĐỘNG
+          </h1>
+        ) : (
+          <h1 className="text-5xl font-black text-cyan-400 mb-4">
+            THÍ SINH {pos}
+          </h1>
+        )}
         <div
           className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-bold ${
             isConnected
