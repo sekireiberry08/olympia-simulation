@@ -22,18 +22,21 @@ app.prepare().then(() => {
   };
 
   io.on("connection", (socket) => {
-    const { role, pos } = socket.handshake.query;
+    socket.on("register", ({ role, pos }) => {
+      let roleKey = role;
 
-    let roleKey = role;
-    if (role === "contestant" && pos) {
-      roleKey = `contestant-${pos}`;
-    }
+      if (role === "contestant" && pos) {
+        roleKey = `contestant-${pos}`;
+      }
 
-    if (roleKey) {
       socket.role = roleKey;
+
       activeClients.set(socket.id, roleKey);
-      console.log(`🟢 [ONLINE] ${roleKey} (ID: ${socket.id})`);
-    }
+
+      broadcastActiveRoles();
+
+      console.log(`🟢 [ONLINE] ${roleKey}`);
+    });
 
     broadcastActiveRoles();
 
@@ -48,7 +51,7 @@ app.prepare().then(() => {
     socket.on("kd-state", (data) => {
       io.emit("kd-state", data);
     });
-    
+
     socket.on("disconnect", () => {
       if (socket.role) {
         console.log(`🔴 [OFFLINE] ${socket.role}`);

@@ -1,22 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
 import { socket } from "@/lib/socket";
 export default function McPage() {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socket = io({ query: { role: "mc" } });
+    socket.emit("register", {
+      role: "mc",
+    });
 
-    socket.on("connect", () => setIsConnected(true));
-    socket.on("disconnect", () => setIsConnected(false));
+    const handleConnect = () => setIsConnected(true);
+    const handleDisconnect = () => setIsConnected(false);
+
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
 
     return () => {
-      socket.disconnect();
+      socket.off("connect", handleConnect);
+      socket.off("disconnect", handleDisconnect);
     };
   }, []);
-
+  
   return (
     <div className="min-h-screen bg-transparent text-white flex flex-col items-center justify-center ">
       <div className="text-center">

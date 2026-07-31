@@ -2,7 +2,7 @@
 
 interface KdContestantSelectorProps {
   contestantsList: string[];
-  selectedContestant: string;
+  selectedContestant: string | null;
   onSelectContestant: (pos: string) => void;
 }
 

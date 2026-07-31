@@ -2,7 +2,6 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
-import { io } from "socket.io-client";
 import { socket } from "@/lib/socket";
 
 function ContestantContent() {
@@ -11,23 +10,23 @@ function ContestantContent() {
   const [isConnected, setIsConnected] = useState(false);
   const [stage, setStage] = useState("");
   useEffect(() => {
-    const socket = io({ query: { role: "contestant", pos } });
-
-    socket.on("connect", () => {
-      setIsConnected(true);
+    socket.emit("register", {
+      role: "contestant",
+      pos,
     });
 
-    socket.on("disconnect", () => {
-      setIsConnected(false);
-    });
+    const handleConnect = () => setIsConnected(true);
+    const handleDisconnect = () => setIsConnected(false);
+    const handleStageChange = (value: string) => setStage(value);
 
-    socket.on("stage-change", (value: string) => {
-      console.log(value);
-      setStage(value);
-    });
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
+    socket.on("stage-change", handleStageChange);
 
     return () => {
-      socket.disconnect();
+      socket.off("connect", handleConnect);
+      socket.off("disconnect", handleDisconnect);
+      socket.off("stage-change", handleStageChange);
     };
   }, [pos]);
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { io, Socket } from "socket.io-client";
+import { socket } from "@/lib/socket";
 
 import ConnectionStatus from "@/components/ui/ConnectionStatus";
 import ContestantScore, { Contestant } from "@/components/ui/ContestantScore";
@@ -12,16 +12,17 @@ import TangTocController from "@/components/rounds/tang-toc/TangTocController";
 import VeDichController from "@/components/rounds/ve-dich/VeDichController";
 
 const STAGES = [
-  { id: "KHỜI ĐỘNG", label: "Khởi Động" },
+  {
+    id: "KHỞI ĐỘNG",
+    label: "Khởi Động",
+  },
   { id: "VCNV", label: "VCNV" },
   { id: "TĂNG TỐC", label: "Tăng Tốc" },
   { id: "VỀ ĐÍCH", label: "Về Đích" },
 ];
 
 export default function ControllerPage() {
-  const socketRef = useRef<Socket | null>(null);
   const [activeStage, setActiveStage] = useState<string | null>(null);
-
   const [connections, setConnections] = useState<Record<string, boolean>>({
     "contestant-1": false,
     "contestant-2": false,
@@ -39,10 +40,11 @@ export default function ControllerPage() {
   ]);
 
   useEffect(() => {
-    const socketClient = io({ query: { role: "controller" } });
-    socketRef.current = socketClient;
+    socket.emit("register", {
+      role: "controller",
+    });
 
-    socketClient.on("clients-update", (activeRoles: string[]) => {
+    const handleClientsUpdate = (activeRoles: string[]) => {
       setConnections({
         "contestant-1": activeRoles.includes("contestant-1"),
         "contestant-2": activeRoles.includes("contestant-2"),
@@ -51,10 +53,12 @@ export default function ControllerPage() {
         mc: activeRoles.includes("mc"),
         viewer: activeRoles.includes("viewer"),
       });
-    });
+    };
+
+    socket.on("clients-update", handleClientsUpdate);
 
     return () => {
-      socketClient.disconnect();
+      socket.off("clients-update", handleClientsUpdate);
     };
   }, []);
 
@@ -63,7 +67,7 @@ export default function ControllerPage() {
       const next = prev.map((c) =>
         c.pos === pos ? { ...c, score: c.score + delta } : c,
       );
-      socketRef.current?.emit("update-scores", next);
+      socket.emit("update-scores", next);
       return next;
     });
   };
@@ -73,7 +77,7 @@ export default function ControllerPage() {
       const next = prev.map((c) =>
         c.pos === pos ? { ...c, name: newName } : c,
       );
-      socketRef.current?.emit("update-scores", next);
+      socket.emit("update-scores", next);
       return next;
     });
   };
@@ -115,9 +119,9 @@ export default function ControllerPage() {
               stage={stage}
               isActive={activeStage === stage.id}
               onClick={() => {
-                if (stage.id === "KHỜI ĐỘNG") {
+                if (stage.id === "KHỞI ĐỘNG") {
                   new Audio("/assets/audio/KĐ_bắt_đầu_left_O9.mp3.mpeg").play();
-                  socketRef.current?.emit("stage-change", "KHỞI ĐỘNG");
+                  socket.emit("stage-change", "KHỞI ĐỘNG");
                 }
 
                 setActiveStage(stage.id);
@@ -127,7 +131,7 @@ export default function ControllerPage() {
         </div>
 
         <div className="flex-1 p-3 overflow-hidden h-full">
-          {activeStage === "KHỜI ĐỘNG" && (
+          {activeStage === "KHỞI ĐỘNG" && (
             <KhoiDongController onUpdateScore={handleUpdateScore} />
           )}
           {activeStage === "VCNV" && <VCNVController />}
