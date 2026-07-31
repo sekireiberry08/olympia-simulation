@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-
+import { socket } from "@/lib/socket";
 export default function McPage() {
   const [isConnected, setIsConnected] = useState(false);
 

@@ -36,13 +36,19 @@ app.prepare().then(() => {
     }
 
     broadcastActiveRoles();
+
     socket.on("stage-change", (stage) => {
       io.emit("stage-change", stage);
     });
+
     socket.on("update-scores", (data) => {
       socket.broadcast.emit("scores-updated", data);
     });
 
+    socket.on("kd-state", (data) => {
+      io.emit("kd-state", data);
+    });
+    
     socket.on("disconnect", () => {
       if (socket.role) {
         console.log(`🔴 [OFFLINE] ${socket.role}`);

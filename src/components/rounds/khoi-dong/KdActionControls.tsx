@@ -47,7 +47,6 @@ transition
       </button>
       <button
         onClick={onCorrect}
-        disabled={gameState !== "PLAYING"}
         className="
 w-full
 aspect-[2048/1879]
@@ -67,7 +66,6 @@ transition
 
       <button
         onClick={onWrong}
-        disabled={gameState !== "PLAYING"}
         className="
 w-full
 aspect-[2048/1879]

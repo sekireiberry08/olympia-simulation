@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import { io } from "socket.io-client";
+import { socket } from "@/lib/socket";
 
 function ContestantContent() {
   const searchParams = useSearchParams();
@@ -21,6 +22,7 @@ function ContestantContent() {
     });
 
     socket.on("stage-change", (value: string) => {
+      console.log(value);
       setStage(value);
     });
 
@@ -37,22 +39,8 @@ function ContestantContent() {
             KHỞI ĐỘNG
           </h1>
         ) : (
-          <h1 className="text-5xl font-black text-cyan-400 mb-4">
-            THÍ SINH {pos}
-          </h1>
+          <></>
         )}
-        <div
-          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-bold ${
-            isConnected
-              ? "bg-emerald-950 border-emerald-500 text-emerald-400"
-              : "bg-rose-950 border-rose-500 text-rose-400"
-          }`}
-        >
-          <span
-            className={`w-3 h-3 rounded-full ${isConnected ? "bg-emerald-400 animate-pulse" : "bg-rose-500"}`}
-          />
-          {isConnected ? "SOCKET CONNECTED" : "DISCONNECTED"}
-        </div>
       </div>
     </div>
   );
