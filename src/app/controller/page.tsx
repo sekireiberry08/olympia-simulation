@@ -86,10 +86,7 @@ export default function ControllerPage() {
   };
 
   return (
-    <div
-      style={{ backgroundImage: `url("/assets/image/image88.png")` }}
-      className="h-screen w-full p-2 flex flex-col gap-2 text-zinc-100 overflow-hidden bg-slate-950 font-mono"
-    >
+    <div className="min-h-screen w-full p-2 flex flex-col gap-2 text-zinc-100 overflow-hidden bg-transparent font-mono">
       <section className="grid grid-cols-6 gap-1 shrink-0">
         {Object.keys(connections).map((role) => (
           <ConnectionStatus

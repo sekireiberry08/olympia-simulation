@@ -27,7 +27,7 @@ export default function ContestantScore({
           type="text"
           value={contestant.name}
           onChange={(e) => onUpdateName(contestant.pos, e.target.value)}
-          className="bg-transparent text-md font-semibold text-center text-blue-900 focus:outline-none focus:border-b border-amber-500/50 w-full"
+          className="bg-transparent text-xl font-semibold text-center text-blue-900 focus:outline-none focus:border-b border-amber-500/50 w-full"
         />
       </div>
 

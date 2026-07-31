@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { KD_QUESTIONS, Question } from "../../../../setup-kd";
 import KdActionControls from "./KdActionControls";
 import KdContestantSelector from "./KdContestantSelector";
@@ -21,7 +21,6 @@ export default function KhoiDongController({
   const [selectedContestant, setSelectedContestant] = useState<string | null>(
     null,
   );
-
   const [gameState, setGameState] = useState<
     "IDLE" | "INTRO" | "PLAYING" | "ENDED"
   >("IDLE");
@@ -38,6 +37,12 @@ export default function KhoiDongController({
   const gameInterval = useRef<NodeJS.Timeout | null>(null);
 
   const currentQ = questions[currentQIndex];
+
+  // Helper dọn dẹp interval
+  const clearAllIntervals = () => {
+    if (introInterval.current) clearInterval(introInterval.current);
+    if (gameInterval.current) clearInterval(gameInterval.current);
+  };
 
   useEffect(() => {
     socket.emit("kd-state", {
@@ -59,60 +64,54 @@ export default function KhoiDongController({
     isWaitingAnswer,
   ]);
 
-  useEffect(() => {
-    if (!isWaitingAnswer) return;
-
-    const timer = setTimeout(() => {
-      if (countdown > 1) {
-        setCountdown((c) => c - 1);
-      } else {
-        handleWrong();
-      }
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [countdown, isWaitingAnswer]);
-
-  const nextQuestion = () => {
+  const nextQuestion = useCallback(() => {
     if (currentQIndex >= questions.length - 1) {
       setGameState("ENDED");
-
-      if (gameInterval.current) {
-        clearInterval(gameInterval.current);
-      }
-
+      clearAllIntervals();
       return;
     }
-
     setCurrentQIndex((i) => i + 1);
-  };
+  }, [currentQIndex, questions.length]);
 
-  const handleWrong = () => {
-    if (gameState !== "PLAYING") return;
-
+  const handleWrong = useCallback(() => {
     setIsWaitingAnswer(false);
     setCountdown(3);
-
     new Audio("/assets/audio/KĐ_sai_O7.mp3.mpeg").play();
-
     nextQuestion();
-  };
+  }, [nextQuestion]);
+
+  // SỬA LỖI 1: Timer đếm ngược câu hỏi
+  useEffect(() => {
+    if (!isWaitingAnswer || gameState !== "PLAYING") return;
+
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          handleWrong();
+          return 3;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isWaitingAnswer, gameState, handleWrong]);
 
   const handleCorrect = () => {
     if (gameState !== "PLAYING" || !selectedContestant) return;
 
     setIsWaitingAnswer(false);
     setCountdown(3);
-
-    new Audio("/assets/audio/KĐ_đúng_O10.mp3.mpeg").play();
-
+    new Audio("/assets/audio/KĐ_đúng_O10.mp3.mpeg").play();
     onUpdateScore?.(selectedContestant, 10);
-
     nextQuestion();
   };
 
   const handleStart = () => {
     if (!selectedContestant) return;
+
+    clearAllIntervals();
 
     setGameState("INTRO");
     setIntroTimer(3);
@@ -120,11 +119,7 @@ export default function KhoiDongController({
     setCurrentQIndex(0);
     setIsRoundSaved(false);
 
-    new Audio("/assets/audio/KĐ_mở_câu_hỏi_O11.mp3.mpeg").play();
-
-    if (introInterval.current) {
-      clearInterval(introInterval.current);
-    }
+    new Audio("/assets/audio/KĐ_mở_câu_hỏi_O11.mp3.mpeg").play();
 
     introInterval.current = setInterval(() => {
       setIntroTimer((prev) => {
@@ -132,7 +127,6 @@ export default function KhoiDongController({
           clearInterval(introInterval.current!);
 
           new Audio("/assets/audio/KĐ_60s_left_O11.mp3.mpeg").play();
-
           setGameState("PLAYING");
 
           gameInterval.current = setInterval(() => {
@@ -142,14 +136,12 @@ export default function KhoiDongController({
                 setGameState("ENDED");
                 return 0;
               }
-
               return time - 1;
             });
           }, 1000);
 
           return 0;
         }
-
         return prev - 1;
       });
     }, 1000);
@@ -158,10 +150,8 @@ export default function KhoiDongController({
   const handleFinish = () => {
     if (isRoundSaved) return;
 
-    new Audio("/assets/audio/KĐ_hoàn_thành.ogg").play();
-
-    introInterval.current && clearInterval(introInterval.current);
-    gameInterval.current && clearInterval(gameInterval.current);
+    new Audio("/assets/audio/KĐ_hoàn_thành.ogg").play();
+    clearAllIntervals();
 
     setIsRoundSaved(true);
     setSelectedContestant(null);
@@ -175,16 +165,13 @@ export default function KhoiDongController({
 
   const handleStartAnswerTimer = () => {
     if (gameState !== "PLAYING") return;
-
     setCountdown(3);
     setIsWaitingAnswer(true);
   };
 
   const resetStateForContestant = (pos: string) => {
-    new Audio("/assets/audio/KĐ_chuẩn_bị_O9.ogg").play();
-
-    introInterval.current && clearInterval(introInterval.current);
-    gameInterval.current && clearInterval(gameInterval.current);
+    new Audio("/assets/audio/KĐ_chuẩn_bị_O9.ogg").play();
+    clearAllIntervals();
 
     setSelectedContestant(pos);
     setGameState("IDLE");
@@ -195,6 +182,11 @@ export default function KhoiDongController({
     setCountdown(3);
     setIsWaitingAnswer(false);
   };
+
+  // Cleanup khi unmount component
+  useEffect(() => {
+    return () => clearAllIntervals();
+  }, []);
 
   return (
     <div className="h-full flex flex-col justify-between gap-2 overflow-hidden text-white font-mono">

@@ -17,8 +17,7 @@ app.prepare().then(() => {
   const activeClients = new Map();
 
   const broadcastActiveRoles = () => {
-    const activeRoles = Array.from(activeClients.values());
-    io.emit("clients-update", activeRoles);
+    io.emit("clients-update", Array.from(activeClients.values()));
   };
 
   io.on("connection", (socket) => {
@@ -30,7 +29,6 @@ app.prepare().then(() => {
       }
 
       socket.role = roleKey;
-
       activeClients.set(socket.id, roleKey);
 
       broadcastActiveRoles();
@@ -44,18 +42,19 @@ app.prepare().then(() => {
       io.emit("stage-change", stage);
     });
 
-    socket.on("update-scores", (data) => {
-      socket.broadcast.emit("scores-updated", data);
+    socket.on("update-scores", (scores) => {
+      io.emit("scores-updated", scores);
     });
 
-    socket.on("kd-state", (data) => {
-      io.emit("kd-state", data);
+    socket.on("kd-state", (state) => {
+      io.emit("kd-state", state);
     });
 
     socket.on("disconnect", () => {
       if (socket.role) {
         console.log(`🔴 [OFFLINE] ${socket.role}`);
       }
+
       activeClients.delete(socket.id);
       broadcastActiveRoles();
     });

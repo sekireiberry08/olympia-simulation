@@ -28,9 +28,11 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`${myriadPro.variable} ${neutra.variable}`}>
       <body
-        className={`min-h-screen w-full h-full bg-cover bg-center bg-no-repeat relative`}
+        className={`min-h-screen w-full h-full bg-no-repeat relative`}
         style={{
           backgroundImage: "url('/assets/image/image1.png')",
+          backgroundSize: "100% auto",
+          backgroundPosition: "center center",
         }}
       >
         <div className="min-h-screen">{children}</div>

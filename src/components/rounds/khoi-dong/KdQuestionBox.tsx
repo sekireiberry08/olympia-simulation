@@ -40,7 +40,7 @@ export default function KdQuestionBox({
           </p>
 
           <span
-            className={`absolute right-10 bottom-10 text-4xl pb-15 font-black ${
+            className={`absolute right-10 bottom-5 text-4xl pb-15 font-black ${
               gameState === "INTRO"
                 ? "text-amber-300"
                 : gameTimer <= 10
