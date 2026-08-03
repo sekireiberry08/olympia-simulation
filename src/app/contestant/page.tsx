@@ -21,6 +21,8 @@ function ContestantContent() {
   const [time, setTime] = useState(60);
   const [score, setScore] = useState(0);
   const [name, setName] = useState(`Thí sinh ${pos}`);
+  const [gameState, setGameState] = useState("IDLE");
+  const [gameTimer, setGameTimer] = useState(60);
 
   useEffect(() => {
     socket.emit("register", {
@@ -46,7 +48,10 @@ function ContestantContent() {
 
     const handleKdState = (data: any) => {
       setCurrentContestant(data.selectedContestant);
-      setQuestion(data.currentQuestion?.question ?? "");
+      setGameState(data.state);
+      setGameTimer(data.gameTimer);
+      const isShowable = data.state === "PLAYING" || data.state === "ENDED";
+      setQuestion(isShowable ? (data.currentQuestion?.question ?? "") : "");
       setTime(data.state === "INTRO" ? data.introTimer : data.gameTimer);
     };
 
@@ -71,7 +76,7 @@ function ContestantContent() {
     <div className="min-h-screen flex items-center justify-center">
       {isPlaying ? (
         <div className="flex items-end gap-10">
-          <QuestionFrame question={question} time={time} />
+          <QuestionFrame question={question} time={time} gameState={gameState} gameTimer={gameTimer}/>
 
           <ScoreFrame score={score} name={name} />
         </div>

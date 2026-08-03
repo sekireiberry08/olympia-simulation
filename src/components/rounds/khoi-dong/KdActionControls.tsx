@@ -102,7 +102,7 @@ transition cursor-pointer
       </button>
       <button
         onClick={() => new Audio("/assets/audio/Ô_trống_O9.ogg").play()}
-        className="w-full h-14 bg-contain bg-center cursor-pointer bg-no-repeat"
+        className="w-full h-7 bg-contain bg-center cursor-pointer bg-no-repeat"
         style={{
           backgroundImage: 'url("/assets/image/image87.png")',
         }}
@@ -113,7 +113,7 @@ transition cursor-pointer
       <button
         onClick={onStartAnswerTimer}
         disabled={gameState !== "PLAYING" || isWaitingAnswer}
-        className="w-full h-14  cursor-pointer bg-contain bg-center bg-no-repeat disabled:opacity-40"
+        className="w-full h-7 cursor-pointer bg-contain bg-center bg-no-repeat disabled:opacity-40"
         style={{
           backgroundImage: 'url("/assets/image/image87.png")',
         }}

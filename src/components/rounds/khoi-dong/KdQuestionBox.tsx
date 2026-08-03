@@ -53,7 +53,7 @@ export default function KdQuestionBox({
         </div>
 
         <div
-          className="-mt-3 w-full h-30 bg-contain bg-center bg-no-repeat mx-auto"
+          className="-mt-3 w-full h-32 bg-contain bg-center bg-no-repeat mx-auto"
           style={{
             backgroundImage: 'url("/assets/image/image81.png")',
           }}
